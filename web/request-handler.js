@@ -7,38 +7,29 @@ var temp = [];
 exports.handleRequest = function (req, res) {
   res.end(archive.paths.list);
   
-  var sendResponse = function(response, data, statusCode){
-    console.log(data);
-    var statusCode = statusCode || 200;
-    response.writeHead(statusCode, headers.headers);
-    response.end(JSON.stringify(data));
-  };
+
 
   var actions = {
     //User types something into index.html
     'GET': function(request, response){
+
+      
+
       console.log("here");
+      var data = "input";
       sendResponse(response, data);
     },
     'POST': function(request, response){
-    //   collectData(request, function(message){
+      //isUrlinList
+      //addUrltoList
 
-    //   });
+
+
+      //readlistofUrls
+      //isURLarchived
+    
         //How will data come in?  Is this the url?
-        var currentData = '';
-        request.on('data', function(data){
-          currentData += data;
-        });
-        request.on('end'), function(){
-          //How do we want to store this data?  
-          //add to sites.txt?
-          temp.push(JSON.parse(currentData));
-          //fs.appendFile('../archives/sites.txt', currentData)
-          //fs.readFile('index.html', function(err, data){
-           // response.writeHead(200)
-          //});
-
-        }
+        
 
 
        sendResponse(response, temp);
