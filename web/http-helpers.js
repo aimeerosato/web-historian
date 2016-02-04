@@ -13,7 +13,7 @@ exports.headers = headers = {
 exports.sendResponse = function(response, data, statusCode){
     var statusCode = statusCode || 200;
     response.writeHead(statusCode, headers.headers);
-    response.end(JSON.stringify(data));
+    response.end(data);
   };
 
 exports.collectData = function(request, callback){

@@ -1,6 +1,6 @@
 var path = require('path');
 var archive = require('../helpers/archive-helpers');
-var headers = require('./http-helpers.js');
+var httpHelpers = require('./http-helpers.js');
 // require more modules/folders here!
 var temp = [];
 
@@ -12,6 +12,11 @@ exports.handleRequest = function (req, res) {
   var actions = {
     //User types something into index.html
     'GET': function(request, response){
+      
+      // urlParser(request.url)
+      
+      // urlPath = 
+      // serveAssets(response, urlPath);
 
       
 
@@ -20,19 +25,41 @@ exports.handleRequest = function (req, res) {
       sendResponse(response, data);
     },
     'POST': function(request, response){
-      //isUrlinList
-      //addUrltoList
+      //client sends in url
+      httpHelpers.collectData(request, function(data){
+        var url = 'www.google.com';
+        // check if have in list
+        archive.isUrlInList(url, function(found){
+          
+          if(!found){ // no, then add 
+            // process
+            archive.addUrlToList(url, function(){
+              httpHelpers.redirect(response, '/loading.html');
+            });
+          } else {
+            // yes, check archive
+            archive.isUrlArchived(url, function(exists){
+              if(exists){
+                // no, take to loading page
+                if(!exists){
+                  httpHelpers.redirect(response, '/loading.html');
+                } else { // yes, take to page
+                  httpHelpers.redirect(response, url);
+                }   
+              }
+            });  
+          }
+
+        });
+      });
+      
+            
+            
+            
+            
 
 
-
-      //readlistofUrls
-      //isURLarchived
-    
-        //How will data come in?  Is this the url?
-        
-
-
-       sendResponse(response, temp);
+      sendResponse(response, temp);
     }
 
 
