@@ -18,7 +18,6 @@ exports.handleRequest = function (req, res) {
     //User types something into index.html
     'GET': function(request, response){
       console.log("here");
-      var data = "input";
       sendResponse(response, data);
     },
     'POST': function(request, response){
@@ -34,6 +33,10 @@ exports.handleRequest = function (req, res) {
           //How do we want to store this data?  
           //add to sites.txt?
           temp.push(JSON.parse(currentData));
+          //fs.appendFile('../archives/sites.txt', currentData)
+          //fs.readFile('index.html', function(err, data){
+           // response.writeHead(200)
+          //});
 
         }
 
