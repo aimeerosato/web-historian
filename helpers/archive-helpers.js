@@ -52,7 +52,7 @@ exports.addUrlToList = function(url, callback){
   exports.isUrlInList(url, function(found){
     if(!found){
       //if not in list, add it to the file (sites.txt)
-      fs.appendFile(exports.paths.list, url.toString().concat('\n'), function(err,data){
+      fs.appendFile(exports.paths.list, url + '\n', function(err,data){
         callback(data);
       });  
     }
@@ -70,7 +70,7 @@ exports.isUrlArchived = function (url, callback) {
 exports.downloadUrls = function(urlArray, callback){
  //createwritesteam - use to get file where need
  //iterate over urls
- var urlArray = exports.paths.
+ // var urlArray = exports.paths.
  //pipe them into new file
 
  //url.toString()
@@ -79,8 +79,11 @@ exports.downloadUrls = function(urlArray, callback){
  // //piping writestream on to request
  // var request = http.get(url, function(response) {
  //    response.pipe(sites);
-  for(var i = 0; i < urlArray[i]; i++){
-    request(urlArray[i]).pipe(fs.createWriteStream(exports.paths.archivedSites));
+  for(var i = 0; i < urlArray.length; i++){
+    var source_url =  urlArray[i]
+    var destination_file = exports.paths.archivedSites + "/" + source_url
+    var write_stream = fs.createWriteStream(destination_file)
+    request('http://' + source_url).pipe(write_stream);
   }
 
 };

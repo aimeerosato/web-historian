@@ -13,21 +13,17 @@ var actions = {
     //If detailed path not included, assume they mean homepage
     var urlPath = parts.pathname === '/' ? '/index.html' : parts.pathname;
     //Getting response to sent to client
+    console.log('urlPath:', urlPath)
     httpHelpers.serveAssets(response, urlPath, function(){
-      archive.isUrlInList(urlPath, function(found){
-        if(found){
-          httpHelpers.redirect(response, '/loading.html');
-        }
-        else {
           httpHelpers.send404(response);
-        }
-      });
+      
     }); 
   },
   'POST': function(request, response){
     //client sends in url
     httpHelpers.collectData(request, function(data){
-      var url = data.split('=')[1];
+      var url = JSON.parse(data).url;
+      console.log("url is: ", url)
       // check if have in list
       archive.isUrlInList(url, function(found){
           
@@ -54,6 +50,7 @@ var actions = {
       
 exports.handleRequest = function (request, response) {          
   var action = actions[request.method];
+  console.log("incoming request: " + request.method + " " + urlParser.parse(request.url).pathname)
   if(action){
     console.log("Using " + request.method);
     action(request, response);

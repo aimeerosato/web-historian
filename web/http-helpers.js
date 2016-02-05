@@ -46,7 +46,7 @@ exports.serveAssets = function(response, asset, callback) {
   fs.readFile(archive.paths.siteAssets + asset, encoding, function(err, data){
     //if it's not there, check the archive folder
     if (err) {
-      fs.readFile(archive.paths.archievedSites + asset, encoding, function(err, data){
+      fs.readFile(archive.paths.archivedSites + asset, encoding, function(err, data){
         //if it's not in the archive folder, send 404
         if (err) {
           callback ? callback() : exports.send404(response);

@@ -5,8 +5,13 @@
 </head>
 <body>
   Enter a URL here:
-  <form method="POST">
+  <form method='POST'>
     <input type="input" name="url"></input>
   </form>
+  <script type="text/javascript">
+    document.body.querySelector('form').addEventListener('submit',function(){
+      console.log('submtting')
+    })
+  </script>
 </body>
 </html>
