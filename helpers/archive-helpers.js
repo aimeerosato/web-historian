@@ -57,19 +57,22 @@ exports.isUrlInList = function(url, callback){
 
 exports.addUrlToList = function(url, callback){
   //use isUrlInList to see if new url coming in
-  exports.isUrlInList(function(found){
+  exports.isUrlInList(url, function(found){
     if(!found){
       //if not in list, add it to the file (sites.txt)
-      fs.appendFile(exports.paths.list, url.join('\n'), callback);  
+      fs.appendFile(exports.paths.list, url.join('\n'), function(err,data){
+        callback(data);
+      });  
     }
-  }, url);
+  });
+
    
 };
 
 exports.isUrlArchived = function (url, callback) {
   //search /archives/sites directory for url 
-  fs.readFile(exports.paths.archivedSites, function(err, data){
-    
+  fs.readFile(path.join(exports.paths.archivedSites, url), function(err, data){
+    err ? callback(url, undefined) : callback(url, data)
   });
   //see if url is there
   //return boolean
@@ -77,6 +80,11 @@ exports.isUrlArchived = function (url, callback) {
 
 //Save until end
 exports.downloadUrls = function(){
+ //
+
+  // GET({url: url},
+  //   path.join(exports.paths.archivedSites, url),
+  //   function() {});
 };
 
 

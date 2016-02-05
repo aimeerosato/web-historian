@@ -10,10 +10,11 @@ exports.headers = headers = {
   'Content-Type': "text/html"
 };
 
-exports.sendResponse = function(response, data, statusCode){
+exports.sendResponse = function(response, obj, statusCode){
     var statusCode = statusCode || 200;
-    response.writeHead(statusCode, headers.headers);
-    response.end(data);
+    response.writeHead(statusCode, headers);
+    response.end(obj);
+    
   };
 
 exports.collectData = function(request, callback){
@@ -36,7 +37,7 @@ exports.redirect = function(response, location, status){
   response.end();
 };
   
-exports.serveAssets = function(res, asset, callback) {
+exports.serveAssets = function(response, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   var encoding = {encoding: 'utf8'};
@@ -48,15 +49,15 @@ exports.serveAssets = function(res, asset, callback) {
       fs.readFile(archive.paths.archievedSites + asset, encoding, function(err, data){
         //if it's not in the archive folder, send 404
         if (err) {
-          callback ? callback() : exports.send404(res);
+          callback ? callback() : exports.send404(response);
         } 
         else {
-        exports.sendResponse(res, data);  
+          exports.sendResponse(response, data);  
         }
       });
     } 
     else {
-      exports.sendResponse(res, data);
+      exports.sendResponse(response, data);
     }
   });
 };
