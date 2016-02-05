@@ -12,7 +12,7 @@ var actions = {
     //Takes care of www.cnn.com/headline
     //If detailed path not included, assume they mean homepage
     var urlPath = parts.pathname === '/' ? '/index.html' : parts.pathname;
-    //Getting response
+    //Getting response to sent to client
     httpHelpers.serveAssets(response, urlPath, function(){
       archive.isUrlInList(urlPath, function(found){
         if(found){

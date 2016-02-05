@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var request = require('request');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -38,21 +39,12 @@ exports.readListOfUrls = function(callback){
 
 exports.isUrlInList = function(url, callback){
   exports.readListOfUrls(function(dataArray) {
-    // var found = false;
     //loop through list in text file
     var found = dataArray.indexOf(url) !== -1;
     //callback(url, dataArray.indexOf(url) !== -1);
     callback(found);
   });
     
-    // for(var i = 0; i < dataArray.length; i++) {
-    //   if (url === dataArray[i]) {
-    //     //return boolean if or if not found
-    //     found = true;
-    //     break;
-    //   }
-    // }
-  //callback(found);
 };
 
 exports.addUrlToList = function(url, callback){
@@ -60,33 +52,44 @@ exports.addUrlToList = function(url, callback){
   exports.isUrlInList(url, function(found){
     if(!found){
       //if not in list, add it to the file (sites.txt)
-      fs.appendFile(exports.paths.list, url.join('\n'), function(err,data){
+      fs.appendFile(exports.paths.list, url.toString().concat('\n'), function(err,data){
         callback(data);
       });  
     }
-  });
-
-   
+  });  
 };
 
 exports.isUrlArchived = function (url, callback) {
   //search /archives/sites directory for url 
   fs.readFile(path.join(exports.paths.archivedSites, url), function(err, data){
-    err ? callback(url, undefined) : callback(url, data)
+    err ? callback(url, undefined) : callback(url, data);
   });
-  //see if url is there
-  //return boolean
 };
 
 //Save until end
-exports.downloadUrls = function(){
- //
+exports.downloadUrls = function(urlArray, callback){
+ //createwritesteam - use to get file where need
+ //iterate over urls
+ var urlArray = exports.paths.
+ //pipe them into new file
 
-  // GET({url: url},
-  //   path.join(exports.paths.archivedSites, url),
-  //   function() {});
+ //url.toString()
+ //path
+ // var sites = fs.createWriteStream(exports.paths.archivedSites);
+ // //piping writestream on to request
+ // var request = http.get(url, function(response) {
+ //    response.pipe(sites);
+  for(var i = 0; i < urlArray[i]; i++){
+    request(urlArray[i]).pipe(fs.createWriteStream(exports.paths.archivedSites));
+  }
+
 };
 
+  //  file.on('finish', function() {
+  //     file.close(callback);
+  //   });
+  // });
+ 
 
 /* sites.txt file?
 www.google.com/archives/sites.txt/n'
